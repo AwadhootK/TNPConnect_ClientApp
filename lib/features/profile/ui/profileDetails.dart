@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tnpconnect/features/profile/bloc/models/profile_model.dart';
+import 'package:tnpconnect/features/profile/bloc/profile_bloc.dart';
 import 'package:tnpconnect/features/profile/ui/profile_docs.dart';
 
 class ProfileDetails extends StatelessWidget {
   final Student student;
   final Map<String, String> studentDocs;
-  const ProfileDetails(this.student, this.studentDocs, {super.key});
+  final Function() resumeAnalyze;
+  final ProfileBloc profileBloc;
+
+  const ProfileDetails(this.student, this.studentDocs, this.resumeAnalyze, this.profileBloc, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +31,27 @@ class ProfileDetails extends StatelessWidget {
             buildProfileField('Interned', student.isInterned ? 'True' : 'False', Icons.work),
             buildProfileField('Gender', student.gender, Icons.person),
             buildProfileField('Company Name', student.companyName, Icons.business),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentDocumentsPage(documentUrls: studentDocs)));
-                },
-                child: const Text('View Documents')),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => StudentDocumentsPage(
+                          documentUrls: studentDocs,
+                          resumeAnalyze: resumeAnalyze,
+                          profileBloc: profileBloc,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('View Documents')),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

@@ -12,4 +12,5 @@ class Endpoints {
   static String getCompanyPostings = "$nodeBaseURL/companyPosting";
   static String companyRegisterEvent = "$nodeBaseURL/studentResponse";
   static String getRegCompanies = "$nodeBaseURL/profile/registeredCompanies";
+  static String analyzeResume = "$nodeBaseURL/analyze"; //! change this to djangoBaseURL later
 }

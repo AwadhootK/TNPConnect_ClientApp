@@ -17,7 +17,19 @@ class ProfilePage extends StatelessWidget {
             child: Text('Some error occurred...'),
           );
         } else if (state is ProfileDetailsSuccessState) {
-          return ProfileDetails(state.student, state.studentDocs);
+          return ProfileDetails(
+            state.student,
+            state.studentDocs,
+            () {
+              if (state.studentDocs['resume'] == null || state.studentDocs['resume']!.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid Resume URL!')));
+              }
+              BlocProvider.of<ProfileBloc>(context).add(
+                AnalyzeResumeEvent(state.studentDocs['resume']!),
+              );
+            },
+            BlocProvider.of<ProfileBloc>(context),
+          );
         } else {
           return const Center(child: CircularProgressIndicator());
         }

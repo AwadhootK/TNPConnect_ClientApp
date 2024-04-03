@@ -14,3 +14,9 @@ class ProfileDetailsSuccessState extends ProfileState {
 
   ProfileDetailsSuccessState(this.student, this.studentDocs);
 }
+
+class ResumeAnalysisState extends ProfileState {
+  AnalyzeResumeModel analysis;
+
+  ResumeAnalysisState(this.analysis);
+}

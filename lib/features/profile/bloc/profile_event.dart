@@ -8,3 +8,8 @@ class GetProfileEvent extends ProfileEvent {
   GetProfileEvent(this.enrollmentNo);
 }
 
+class AnalyzeResumeEvent extends ProfileEvent {
+  String resumeURL;
+
+  AnalyzeResumeEvent(this.resumeURL);
+}
