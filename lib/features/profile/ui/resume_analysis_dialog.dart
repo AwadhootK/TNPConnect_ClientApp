@@ -55,11 +55,13 @@ class ResumeAnalysisDialog extends StatelessWidget {
                   const SizedBox(height: 10),
                   _buildText('Summary:', resumeModel.summary),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: const Text('Close'),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      child: const Text('Close'),
+                    ),
                   ),
                 ],
               ),
