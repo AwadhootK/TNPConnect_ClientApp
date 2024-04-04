@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tnpconnect/features/documentUpload/bloc/document_upload_bloc.dart';
 import 'package:tnpconnect/features/documentUpload/ui/pageView.dart';
-import 'package:tnpconnect/features/documentUpload/ui/student_details_form.dart';
+import 'package:tnpconnect/features/authentication/ui/student_details_form.dart';
 
 class DocumentsUploadPage extends StatefulWidget {
   const DocumentsUploadPage({super.key});

@@ -23,3 +23,9 @@ class UserSignUpEvent extends AuthEvents {
 class RefreshTokenExpireEvent extends AuthEvents {}
 
 class LogOutEvent extends AuthEvents {}
+
+class EnrollFormEvent extends AuthEvents {
+  Map<String, dynamic> formDetails;
+
+  EnrollFormEvent(this.formDetails);
+}

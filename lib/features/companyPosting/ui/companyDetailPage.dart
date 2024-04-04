@@ -40,75 +40,77 @@ class CompanyDetailsPage extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.73,
-                    child: SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withOpacity(0.5),
-                              spreadRadius: 3,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: Colors.grey.withOpacity(0.3),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Text(
-                                company.name ?? 'Company Name Not Available',
-                                style: const TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.73,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.5),
+                                spreadRadius: 3,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            color: Colors.grey.withOpacity(0.3),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Text(
+                                  company.name ?? 'Company Name Not Available',
+                                  style: const TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Divider(
-                              thickness: 1.5,
-                              color: Colors.black.withOpacity(0.2),
-                            ),
-                            const SizedBox(height: 16.0),
-                            _buildDetailRow('Stipend', '${company.stipend ?? 0}'),
-                            const Divider(),
-                            _buildDetailRow('PPO', company.ppo ?? false ? 'Yes' : 'No'),
-                            const Divider(),
-                            _buildDetailRow('JD Link', company.jdLink ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Location', company.location ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Duration', '${company.duration ?? 'Not Available'} months'),
-                            const Divider(),
-                            _buildDetailRow('Rounds', '${company.rounds ?? 1}'),
-                            const Divider(),
-                            _buildDetailRow('Date & Time of Test', company.dateTimeOfTest ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Notes', company.notes ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Criteria', company.criteria ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Eligible Branches', (company.eligibleBranches?.map((b) => b.toString().substring(7)))?.toList().join(', ') ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Mode', company.mode ?? 'Not Available'),
-                            const Divider(),
-                            _buildDetailRow('Drive Completed', company.driveCompleted ?? false ? 'Yes' : 'No'),
-                          ],
+                              Divider(
+                                thickness: 1.5,
+                                color: Colors.black.withOpacity(0.2),
+                              ),
+                              const SizedBox(height: 16.0),
+                              _buildDetailRow('Stipend', '${company.stipend ?? 0}'),
+                              const Divider(),
+                              _buildDetailRow('PPO', company.ppo ?? false ? 'Yes' : 'No'),
+                              const Divider(),
+                              _buildDetailRow('JD Link', company.jdLink ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Location', company.location ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Duration', '${company.duration ?? 'Not Available'} months'),
+                              const Divider(),
+                              _buildDetailRow('Rounds', '${company.rounds ?? 1}'),
+                              const Divider(),
+                              _buildDetailRow('Date & Time of Test', company.dateTimeOfTest ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Notes', company.notes ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Criteria', company.criteria ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Eligible Branches', (company.eligibleBranches?.map((b) => b.toString().substring(7)))?.toList().join(', ') ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Mode', company.mode ?? 'Not Available'),
+                              const Divider(),
+                              _buildDetailRow('Drive Completed', company.driveCompleted ?? false ? 'Yes' : 'No'),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(child: _buildRegisterSection(context)),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(child: _buildRegisterSection(context)),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

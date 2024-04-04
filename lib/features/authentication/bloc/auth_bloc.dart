@@ -18,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
     on<UserSignUpEvent>(userSignUpEventHandler);
     on<RefreshTokenExpireEvent>(refreshTokenExpireEventHandler);
     on<LogOutEvent>(logOutEventHandler);
+    on<EnrollFormEvent>(enrollFormEventHandler);
   }
 
   FutureOr<void> checkLoginEventHandler(CheckLoginEvent event, Emitter<AuthStates> emit) async {
@@ -55,9 +56,12 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       log(body);
 
       final response = await http.post(url, headers: headers, body: body);
+
+      inspect(response);
+
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
-        log(data.toString());
+        log("data = $data");
         const storage = FlutterSecureStorage();
         await storage.write(key: 'accessToken', value: data['accessToken']);
         await storage.write(key: 'refreshToken', value: data['refreshToken']);
@@ -135,6 +139,30 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
     } catch (e) {
       log(e.toString());
       emit(AuthErrorState());
+    }
+  }
+
+  FutureOr<void> enrollFormEventHandler(EnrollFormEvent event, Emitter<AuthStates> emit) async {
+    try {
+      emit(AuthLoadingState());
+      final url = Uri.parse(Endpoints.postProfile);
+      final headers = {'Content-Type': 'application/json'};
+      final body = jsonEncode(event.formDetails);
+
+      log(body);
+
+      final response = await http.post(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        log("success!");
+        emit(LoginSuccessState());
+        return;
+      } else {
+        emit(LoginFailureState());
+      }
+    } catch (e) {
+      log(e.toString());
+      emit(LoginFailureState());
     }
   }
 }

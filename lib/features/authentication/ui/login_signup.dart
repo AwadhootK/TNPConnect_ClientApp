@@ -14,6 +14,7 @@ import 'package:tnpconnect/features/companyPosting/bloc/company_postings_bloc.da
 import 'package:tnpconnect/features/companyPosting/ui/companyPostingPage.dart';
 import 'package:tnpconnect/features/documentUpload/bloc/document_upload_bloc.dart';
 import 'package:tnpconnect/features/documentUpload/ui/documentUploadPage.dart';
+import 'package:tnpconnect/features/authentication/ui/student_details_form.dart';
 import 'package:tnpconnect/features/profile/bloc/profile_bloc.dart';
 import 'package:tnpconnect/features/profile/ui/profilePage.dart';
 
@@ -25,7 +26,7 @@ class CheckLoginSignUp extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthStates>(
       builder: (context, state) {
         log("Auth State = $state");
-        if (state is LoginSuccessState || state is SignUpSuccessState) {
+        if (state is LoginSuccessState) {
           return Scaffold(
             appBar: customAppBar(() => {
                   BlocProvider.of<AuthBloc>(context).add(LogOutEvent()),
@@ -109,6 +110,10 @@ class CheckLoginSignUp extends StatelessWidget {
                 letIndexChange: (index) => true,
               ),
             ),
+          );
+        } else if (state is SignUpSuccessState) {
+          return EnrollmentForm(
+            authBloc: BlocProvider.of<AuthBloc>(context),
           );
         } else {
           return const LoginPage();
