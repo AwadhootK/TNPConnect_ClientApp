@@ -34,7 +34,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         Student student = Student.fromJson(data['studentProfile']);
-        Map<String, dynamic> docs = data['studentDocuments'];
+        Map<String, dynamic> docs = data['studentDocuments'] ?? {};
+
+        log(docs.toString());
         Map<String, String> studentDocs = {};
 
         docs.forEach(
@@ -65,7 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       log("here");
       final url = Uri.parse(Endpoints.analyzeResume);
       final headers = {'Content-Type': 'application/json'};
-      final body = jsonEncode({"resumeURL": event.resumeURL});
+      final body = jsonEncode({"file_url": event.resumeURL, "jd": "Software Developer"});
 
       final response = await http.post(url, headers: headers, body: body);
 

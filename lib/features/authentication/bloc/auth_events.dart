@@ -26,6 +26,13 @@ class LogOutEvent extends AuthEvents {}
 
 class EnrollFormEvent extends AuthEvents {
   Map<String, dynamic> formDetails;
+  String deviceID;
 
-  EnrollFormEvent(this.formDetails);
+  EnrollFormEvent(this.formDetails, this.deviceID);
 }
+
+// class UpdateDeviceID extends AuthEvents {
+//   final String deviceID;
+
+//   UpdateDeviceID(this.deviceID);
+// }

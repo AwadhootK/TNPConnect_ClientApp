@@ -28,3 +28,9 @@ class DocumentVerifyEvent extends StudentDocumentUploadEvent {
 
   DocumentVerifyEvent(this.docIndex, this.file);
 }
+
+class DocumentEmitInitEvent extends StudentDocumentUploadEvent {
+  int docIndex;
+
+  DocumentEmitInitEvent(this.docIndex);
+}

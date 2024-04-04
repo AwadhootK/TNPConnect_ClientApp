@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
     on<RefreshTokenExpireEvent>(refreshTokenExpireEventHandler);
     on<LogOutEvent>(logOutEventHandler);
     on<EnrollFormEvent>(enrollFormEventHandler);
+    // on<UpdateDeviceID>(updateDeviceIDHandler);
   }
 
   FutureOr<void> checkLoginEventHandler(CheckLoginEvent event, Emitter<AuthStates> emit) async {
@@ -147,6 +148,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       emit(AuthLoadingState());
       final url = Uri.parse(Endpoints.postProfile);
       final headers = {'Content-Type': 'application/json'};
+      event.formDetails['deviceID'] = event.deviceID;
       final body = jsonEncode(event.formDetails);
 
       log(body);
@@ -165,4 +167,28 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       emit(LoginFailureState());
     }
   }
+
+  // FutureOr<void> updateDeviceIDHandler(String deviceID) async {
+  //   try {
+  //     emit(AuthLoadingState());
+  //     final url = Uri.parse("${Endpoints.updateDeviceID}/${User.instance.enrollmentNumber}");
+  //     final headers = {'Content-Type': 'application/json'};
+  //     final body = jsonEncode({"deviceID": deviceID});
+
+  //     log(body);
+
+  //     final response = await http.post(url, headers: headers, body: body);
+
+  //     if (response.statusCode == 200) {
+  //       log("successfully updated deviceID!");
+  //       emit(DeviceIDUpdated());
+  //       return;
+  //     } else {
+  //       emit(LoginFailureState());
+  //     }
+  //   } catch (e) {
+  //     log(e.toString());
+  //     emit(LoginFailureState());
+  //   }
+  // }
 }

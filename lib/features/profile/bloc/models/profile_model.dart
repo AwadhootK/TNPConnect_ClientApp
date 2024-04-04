@@ -5,9 +5,9 @@ class Student {
   String email;
   String prnNo;
   String branch;
-  double cgpa;
+  String cgpa;
   String year;
-  int countOfBacklogs;
+  String countOfBacklogs;
   bool isInterned;
   String gender;
   String companyName;
@@ -21,7 +21,7 @@ class Student {
     required this.branch,
     required this.cgpa,
     required this.year,
-    this.countOfBacklogs = 0,
+    this.countOfBacklogs = '0',
     this.isInterned = false,
     required this.gender,
     this.companyName = "NA",
@@ -52,9 +52,9 @@ class Student {
       email: json['email'],
       prnNo: json['prnNo'],
       branch: json['branch'],
-      cgpa: json['cgpa'],
+      cgpa: json['cgpa'].toString(),
       year: json['year'],
-      countOfBacklogs: json['countOfBacklogs'],
+      countOfBacklogs: json['countOfBacklogs'].toString(),
       isInterned: json['isInterned'],
       gender: json['gender'],
       companyName: json['companyName'],

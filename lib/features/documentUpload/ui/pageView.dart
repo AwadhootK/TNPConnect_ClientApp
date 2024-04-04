@@ -10,6 +10,9 @@ class DocumentPageView extends StatefulWidget {
   final DocumentUploadBloc documentUploadBloc;
   final PlatformFile? file;
   final int numberButtonsActive;
+  final bool? isSignVerified;
+  final double? ocrMarks;
+  final DocumentUploadState documentUploadState;
 
   const DocumentPageView({
     Key? key,
@@ -20,6 +23,9 @@ class DocumentPageView extends StatefulWidget {
     required this.documentUploadBloc,
     required this.file,
     required this.numberButtonsActive,
+    required this.isSignVerified,
+    required this.ocrMarks,
+    required this.documentUploadState,
   }) : super(key: key);
 
   @override
@@ -67,36 +73,54 @@ class _DocumentPageViewState extends State<DocumentPageView> {
                       },
                 child: const Text('Upload Document'),
               ),
-              ElevatedButton(
-                onPressed: widget.numberButtonsActive < 3
-                    ? null
-                    : () {
-                        if (widget.file != null) {
-                          widget.documentUploadBloc.add(DocumentSignEvent(widget.docIndex, widget.file!));
-                        }
-                      },
-                child: const Text(
-                  'Add Signature',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              ElevatedButton(
-                onPressed: widget.numberButtonsActive < 4
-                    ? null
-                    : () {
-                        if (widget.file != null) {
-                          widget.documentUploadBloc.add(DocumentVerifyEvent(widget.docIndex, widget.file!));
-                        }
-                      },
-                child: const Text(
-                  'Verify Signature',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+              // ElevatedButton(
+              //   onPressed: widget.numberButtonsActive < 3
+              //       ? null
+              //       : () {
+              //           if (widget.file != null) {
+              //             widget.documentUploadBloc.add(DocumentSignEvent(widget.docIndex, widget.file!));
+              //           }
+              //         },
+              //   child: const Text(
+              //     'Add Signature',
+              //     maxLines: 1,
+              //     overflow: TextOverflow.ellipsis,
+              //   ),
+              // ),
+              // ElevatedButton(
+              //   onPressed: widget.numberButtonsActive < 4
+              //       ? null
+              //       : () {
+              //           if (widget.file != null) {
+              //             widget.documentUploadBloc.add(DocumentVerifyEvent(widget.docIndex, widget.file!));
+              //           }
+              //         },
+              //   child: const Text(
+              //     'Verify Signature',
+              //     maxLines: 1,
+              //     overflow: TextOverflow.ellipsis,
+              //   ),
+              // ),
             ],
           ),
+          if (widget.documentUploadState is DocumentUploadUploadedState && (widget.isSignVerified ?? false) == true)
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: Center(
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.green.shade100,
+                    child: const Icon(
+                      Icons.check,
+                      size: 40,
+                      color: Colors.green,
+                    ),
+                  ),
+                ),
+              ),
+            )
         ],
       ),
     );

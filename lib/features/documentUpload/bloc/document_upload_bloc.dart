@@ -20,6 +20,7 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
     on<DocumentUploadEvent>(documentUploadEventHandler);
     on<DocumentSignEvent>(documentSignEventHandler);
     on<DocumentVerifyEvent>(documentVerifyEventHandler);
+    on<DocumentEmitInitEvent>(docEmitInitStateHandler);
   }
 
   FutureOr<void> documentSelectEventHandler(DocumentSelectEvent event, Emitter<DocumentUploadState> emit) async {
@@ -100,6 +101,10 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
         String responseBody = await response.stream.bytesToString();
 
         final downloadURL = jsonDecode(responseBody)['downloadUrl'];
+        final ocrMarks = jsonDecode(responseBody)['ocr_marks']; // only for docIndex == 5
+        final signature = jsonDecode(responseBody)['signature'];
+
+        log("data received: ${jsonDecode(responseBody)}");
 
         log(downloadURL);
 
@@ -116,7 +121,14 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
 
           log(data2.toString());
 
-          emit(DocumentUploadUploadedState(event.docIndex, event.file));
+          emit(
+            DocumentUploadUploadedState(
+              event.docIndex,
+              event.file,
+              signature,
+              (ocrMarks == -1) ? null : ocrMarks,
+            ),
+          );
           return;
         }
         emit(DocummentUploadErrorState());
@@ -154,5 +166,9 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
       log(e.toString());
       emit(DocummentUploadErrorState());
     }
+  }
+
+  FutureOr<void> docEmitInitStateHandler(DocumentEmitInitEvent event, Emitter<DocumentUploadState> emit) async {
+    emit(DocumentUploadInitialState(event.docIndex));
   }
 }

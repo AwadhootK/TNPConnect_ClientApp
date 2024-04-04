@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:tnpconnect/features/authentication/bloc/auth_bloc.dart';
 
 enum Gender { Male, Female, Other }
@@ -374,7 +375,10 @@ class _EnrollmentFormState extends State<EnrollmentForm> {
                       String jsonData = json.encode(formData);
                       log(jsonData);
 
-                      widget.authBloc.add(EnrollFormEvent(formData));
+                      widget.authBloc.add(EnrollFormEvent(
+                        formData,
+                        OneSignal.User.pushSubscription.id.toString(),
+                      ));
                     } else {
                       log("invalid!");
                     }

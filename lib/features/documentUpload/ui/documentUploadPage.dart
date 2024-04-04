@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tnpconnect/features/documentUpload/bloc/document_upload_bloc.dart';
 import 'package:tnpconnect/features/documentUpload/ui/pageView.dart';
-import 'package:tnpconnect/features/authentication/ui/student_details_form.dart';
 
 class DocumentsUploadPage extends StatefulWidget {
   const DocumentsUploadPage({super.key});
@@ -62,6 +61,9 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
                       documentUploadBloc: BlocProvider.of<DocumentUploadBloc>(context),
                       file: null,
                       numberButtonsActive: 1,
+                      isSignVerified: null,
+                      ocrMarks: null,
+                      documentUploadState: state,
                     );
                   } else if (state is DocumentUploadUploadedState) {
                     return DocumentPageView(
@@ -74,6 +76,9 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
                       documentUploadBloc: BlocProvider.of<DocumentUploadBloc>(context),
                       file: state.doc,
                       numberButtonsActive: 3,
+                      isSignVerified: state.isSigned,
+                      ocrMarks: state.ocrMarks,
+                      documentUploadState: state,
                     );
                   } else if (state is DocumentUploadLoadingState) {
                     return const Center(
@@ -83,12 +88,6 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
                     return const Center(
                       child: Text('Some error occurred...'),
                     );
-                  } else if (state is DocumentUploadNextState) {
-                    _pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.bounceIn);
-                    return Container();
-                  } else if (state is DocumentUploadPreviousState) {
-                    _pageController.previousPage(duration: const Duration(seconds: 1), curve: Curves.bounceIn);
-                    return Container();
                   } else if (state is DocumentUploadSelectedState) {
                     return DocumentPageView(
                       docIndex: index,
@@ -100,6 +99,9 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
                       documentUploadBloc: BlocProvider.of<DocumentUploadBloc>(context),
                       file: state.doc,
                       numberButtonsActive: 2,
+                      isSignVerified: null,
+                      ocrMarks: null,
+                      documentUploadState: state,
                     );
                   } else if (state is DocumentUploadVerifiedState) {
                     return DocumentPageView(
@@ -112,6 +114,9 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
                       documentUploadBloc: BlocProvider.of<DocumentUploadBloc>(context),
                       file: state.doc,
                       numberButtonsActive: 4,
+                      isSignVerified: null,
+                      ocrMarks: null,
+                      documentUploadState: state,
                     );
                   }
                   return null;
@@ -146,6 +151,7 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
                         onPressed: () {
                           if (state is DocumentUploadUploadedState && _currentPageIndex < documents.length - 1) {
                             _pageController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
+                            // BlocProvider.of<DocumentUploadBloc>(context).add(DocumentEmitInitEvent(state.docIndex + 1));
                           }
                         },
                       ),

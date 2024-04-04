@@ -24,11 +24,15 @@ class DocumentUploadSelectedState extends DocumentUploadState {
 
 class DocumentUploadUploadedState extends DocumentUploadState {
   int docIndex;
+  bool isSigned;
+  double? ocrMarks;
   final PlatformFile doc;
 
   DocumentUploadUploadedState(
     this.docIndex,
     this.doc,
+    this.isSigned,
+    this.ocrMarks,
   );
 }
 

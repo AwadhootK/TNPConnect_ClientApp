@@ -1,6 +1,6 @@
 class Endpoints {
-  static String flaskBaseURL = "http://192.0.0.2:5000";
-  static String nodeBaseURL = "http://192.168.31.250:3000";
+  static String flaskBaseURL = "http://192.168.246.125:5000";
+  static String nodeBaseURL = "http://192.168.246.250:3000";
   static String login = "$nodeBaseURL/auth/login";
   static String signup = "$nodeBaseURL/auth/signup";
   static String refresh = "$nodeBaseURL/auth/refresh";
@@ -12,6 +12,7 @@ class Endpoints {
   static String getCompanyPostings = "$nodeBaseURL/companyPosting";
   static String companyRegisterEvent = "$nodeBaseURL/studentResponse";
   static String getRegCompanies = "$nodeBaseURL/profile/registeredCompanies";
-  static String analyzeResume = "$nodeBaseURL/analyze"; //! change this to djangoBaseURL later
+  static String analyzeResume = "$flaskBaseURL/analyzeUrl";
   static String postProfile = "$nodeBaseURL/profile";
+  static String updateDeviceID = "$nodeBaseURL/auth/deviceID";
 }
