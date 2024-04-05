@@ -93,6 +93,12 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
       request.fields['erno'] = User.instance.enrollmentNumber;
       request.fields['docType'] = event.docIndex.toString();
 
+      // await Future.delayed(const Duration(seconds: 3));
+      // emit(
+      //   DocumentUploadUploadedState(event.docIndex, event.file, true, 9.5),
+      // );
+      // return;
+
       final response = await request.send();
 
       inspect(response);
