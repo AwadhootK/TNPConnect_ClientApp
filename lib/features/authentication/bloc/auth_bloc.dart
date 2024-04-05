@@ -40,10 +40,10 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
         return;
       }
 
-      emit(LoginFailureState());
+      emit(AutoLoginFailureState());
     } catch (e) {
       log(e.toString());
-      emit(LoginFailureState());
+      emit(AutoLoginFailureState());
     }
   }
 

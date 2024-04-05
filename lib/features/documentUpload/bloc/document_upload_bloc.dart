@@ -21,6 +21,7 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
     on<DocumentSignEvent>(documentSignEventHandler);
     on<DocumentVerifyEvent>(documentVerifyEventHandler);
     on<DocumentEmitInitEvent>(docEmitInitStateHandler);
+    on<CheckDocsUploaded>(checkDocsUploadedHandler);
   }
 
   FutureOr<void> documentSelectEventHandler(DocumentSelectEvent event, Emitter<DocumentUploadState> emit) async {
@@ -176,5 +177,24 @@ class DocumentUploadBloc extends Bloc<StudentDocumentUploadEvent, DocumentUpload
 
   FutureOr<void> docEmitInitStateHandler(DocumentEmitInitEvent event, Emitter<DocumentUploadState> emit) async {
     emit(DocumentUploadInitialState(event.docIndex));
+  }
+
+  FutureOr<void> checkDocsUploadedHandler(CheckDocsUploaded event, Emitter<DocumentUploadState> emit) async {
+    try {
+      final url = Uri.parse("${Endpoints.checkDocsUploaded}/${event.erno}");
+      final headers = {'Content-Type': 'application/json'};
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        log("response = ${jsonDecode(response.body)}");
+        emit(DocumentsFoundState());
+      } else {
+        emit(DocumentsNotFoundState());
+      }
+    } catch (e) {
+      log(e.toString());
+      emit(DocumentsNotFoundState());
+    }
   }
 }

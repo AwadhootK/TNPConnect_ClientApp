@@ -61,3 +61,7 @@ class DocumentUploadPreviousState extends DocumentUploadState {
 
   DocumentUploadPreviousState(this.docIndex);
 }
+
+class DocumentsFoundState extends DocumentUploadState {}
+
+class DocumentsNotFoundState extends DocumentUploadState {}

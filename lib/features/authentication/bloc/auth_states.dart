@@ -23,3 +23,5 @@ class RefreshTokenExpireErrorState extends AuthStates {}
 class LogOutState extends AuthStates {}
 
 class DeviceIDUpdated extends AuthStates {}
+
+class AutoLoginFailureState extends AuthStates {}

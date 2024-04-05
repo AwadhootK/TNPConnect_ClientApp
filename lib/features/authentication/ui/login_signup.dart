@@ -7,6 +7,7 @@ import 'package:tnpconnect/constants/appbar.dart';
 import 'package:tnpconnect/constants/user.dart';
 import 'package:tnpconnect/features/authentication/bloc/auth_bloc.dart';
 import 'package:tnpconnect/features/authentication/ui/login.dart';
+import 'package:tnpconnect/features/authentication/ui/student_details_form.dart';
 import 'package:tnpconnect/features/bottombar/bloc/bottombar_bloc.dart';
 import 'package:tnpconnect/features/chatbot/bloc/chatbot_bloc.dart';
 import 'package:tnpconnect/features/chatbot/ui/chatbotpage.dart';
@@ -14,7 +15,6 @@ import 'package:tnpconnect/features/companyPosting/bloc/company_postings_bloc.da
 import 'package:tnpconnect/features/companyPosting/ui/companyPostingPage.dart';
 import 'package:tnpconnect/features/documentUpload/bloc/document_upload_bloc.dart';
 import 'package:tnpconnect/features/documentUpload/ui/documentUploadPage.dart';
-import 'package:tnpconnect/features/authentication/ui/student_details_form.dart';
 import 'package:tnpconnect/features/profile/bloc/profile_bloc.dart';
 import 'package:tnpconnect/features/profile/ui/profilePage.dart';
 
@@ -31,51 +31,57 @@ class CheckLoginSignUp extends StatelessWidget {
             appBar: customAppBar(() => {
                   BlocProvider.of<AuthBloc>(context).add(LogOutEvent()),
                 }),
-            body: BlocBuilder<BottomBarBloc, BottomBarStates>(builder: (context, state) {
-              if (state is BottomBarChatbotState) {
-                return BlocProvider(
-                  create: (context) => ChatbotBloc(),
-                  child: const ChatBotPage(),
-                );
-              } else if (state is BottomBarProfileState) {
-                return BlocProvider(
-                  create: (context) => ProfileBloc()..add(GetProfileEvent(User.instance.enrollmentNumber)),
-                  child: const ProfilePage(),
-                );
-              } else if (state is BottomBarDocumentsState) {
-                return BlocProvider(
-                  create: (context) => DocumentUploadBloc(),
-                  child: const DocumentsUploadPage(),
-                );
-              } else if (state is BottomBarCompanyPostingsState) {
-                return BlocProvider(
-                  create: (context) => CompanyPostingsBloc()..add(GetCompanyPostingEvent()),
-                  child: const CompanyPostingsPage(),
-                );
-              }
-              return const Placeholder();
-            }),
+            body: BlocBuilder<BottomBarBloc, BottomBarStates>(
+              builder: (context, state) {
+                if (state is BottomBarChatbotState) {
+                  return BlocProvider(
+                    create: (context) => ChatbotBloc(),
+                    child: const ChatBotPage(),
+                  );
+                } else if (state is BottomBarProfileState) {
+                  return BlocProvider(
+                    create: (context) => ProfileBloc()..add(GetProfileEvent(User.instance.enrollmentNumber)),
+                    child: const ProfilePage(),
+                  );
+                } else if (state is BottomBarDocumentsState) {
+                  return BlocProvider(
+                    create: (context) => DocumentUploadBloc()..add(CheckDocsUploaded(User.instance.enrollmentNumber)),
+                    child: const DocumentsUploadPage(),
+                  );
+                } else if (state is BottomBarCompanyPostingsState) {
+                  return BlocProvider(
+                    create: (context) => CompanyPostingsBloc()..add(GetCompanyPostingEvent()),
+                    child: const CompanyPostingsPage(),
+                  );
+                }
+                return const Placeholder();
+              },
+            ),
             bottomNavigationBar: Container(
               margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
               child: CurvedNavigationBar(
                 index: 2,
                 height: MediaQuery.of(context).size.height * 0.07,
                 items: <Widget>[
+                  //chatbot
                   Icon(
                     Icons.chat,
                     size: 30,
                     color: Colors.black.withOpacity(0.7),
                   ),
+                  //profile
                   Icon(
                     Icons.person,
                     size: 30,
                     color: Colors.black.withOpacity(0.7),
                   ),
+                  // postings
                   Icon(
                     Icons.work,
                     size: 30,
                     color: Colors.black.withOpacity(0.7),
                   ),
+                  //doc upload
                   Icon(
                     Icons.document_scanner_outlined,
                     size: 30,
@@ -115,6 +121,18 @@ class CheckLoginSignUp extends StatelessWidget {
           return EnrollmentForm(
             authBloc: BlocProvider.of<AuthBloc>(context),
           );
+        } else if (state is LoginFailureState) {
+          Future.delayed(Duration.zero).then((value) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login Failed! Try using correct credentials!')));
+          });
+          return const LoginPage();
+        } else if (state is SignUpFailureState) {
+          Future.delayed(Duration.zero).then((value) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login Failed! Try using correct credentials!')));
+          });
+          return const LoginPage();
         } else {
           return const LoginPage();
         }

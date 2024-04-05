@@ -60,60 +60,75 @@ class _DocumentsUploadPageState extends State<DocumentsUploadPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) => setState(() {
-              _currentPageIndex = index;
-            }),
-            itemBuilder: ((context, index) {
-              return DocumentPageView(docIndex: index, documentName: documents[index], details: details);
-            }),
-            itemCount: documents.length,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return BlocConsumer<DocumentUploadBloc, DocumentUploadState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is DocumentsFoundState) {
+          return const Center(
+            child: Text('You have already uploaded the documents!'),
+          );
+        } else if (state is DocumentsNotFoundState) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CircleAvatar(
-                backgroundColor: (_currentPageIndex > 0) ? Colors.blue : Colors.grey,
-                child: IconButton(
-                  color: Colors.white,
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    if (_currentPageIndex > 0) {
-                      _pageController.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
-                    }
-                  },
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (index) => setState(() {
+                    _currentPageIndex = index;
+                  }),
+                  itemBuilder: ((context, index) {
+                    return DocumentPageView(docIndex: index, documentName: documents[index], details: details);
+                  }),
+                  itemCount: documents.length,
                 ),
               ),
-              BlocBuilder<DocumentUploadBloc, DocumentUploadState>(builder: (context, state) {
-                log("State = $state");
-                return CircleAvatar(
-                  backgroundColor: _getCondition(_currentPageIndex, state) ? Colors.blue : Colors.grey,
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      if (_getCondition(_currentPageIndex, state) && _currentPageIndex < documents.length - 1) {
-                        _pageController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
-                      }
-                      if (details.containsKey(_currentPageIndex)) {
-                        BlocProvider.of<DocumentUploadBloc>(context).add(DocumentEmitInitEvent(_currentPageIndex + 1));
-                      }
-                    },
-                  ),
-                );
-              }),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: (_currentPageIndex > 0) ? Colors.blue : Colors.grey,
+                      child: IconButton(
+                        color: Colors.white,
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          if (_currentPageIndex > 0) {
+                            _pageController.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
+                          }
+                        },
+                      ),
+                    ),
+                    BlocBuilder<DocumentUploadBloc, DocumentUploadState>(builder: (context, state) {
+                      log("State = $state");
+                      return CircleAvatar(
+                        backgroundColor: _getCondition(_currentPageIndex, state) ? Colors.blue : Colors.grey,
+                        child: IconButton(
+                          color: Colors.white,
+                          icon: const Icon(Icons.arrow_forward),
+                          onPressed: () {
+                            if (_getCondition(_currentPageIndex, state) && _currentPageIndex < documents.length - 1) {
+                              _pageController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.bounceIn);
+                            }
+                            if (details.containsKey(_currentPageIndex)) {
+                              BlocProvider.of<DocumentUploadBloc>(context).add(DocumentEmitInitEvent(_currentPageIndex + 1));
+                            }
+                          },
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
             ],
-          ),
-        ),
-      ],
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }

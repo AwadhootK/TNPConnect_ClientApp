@@ -1,6 +1,6 @@
 class Endpoints {
   static String flaskBaseURL = "http://192.168.246.125:5000";
-  static String nodeBaseURL = "http://192.168.246.250:3000";
+  static String nodeBaseURL = "http://192.168.1.35:3000";
   static String login = "$nodeBaseURL/auth/login";
   static String signup = "$nodeBaseURL/auth/signup";
   static String refresh = "$nodeBaseURL/auth/refresh";
@@ -15,4 +15,5 @@ class Endpoints {
   static String analyzeResume = "$flaskBaseURL/analyzeUrl";
   static String postProfile = "$nodeBaseURL/profile";
   static String updateDeviceID = "$nodeBaseURL/auth/deviceID";
+  static String checkDocsUploaded = "$nodeBaseURL/upload";
 }

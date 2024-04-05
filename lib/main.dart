@@ -53,7 +53,7 @@ class IntroPage extends StatelessWidget {
             // ..add(UpdateDeviceID(OneSignal.User.pushSubscription.id.toString())),
             ),
         BlocProvider(
-          create: (context) => BottomBarBloc()..add(BottomBarProfileEvent()),
+          create: (context) => BottomBarBloc()..add(BottomBarCompanyPostingsEvent()),
         ),
       ],
       child: const CheckLoginSignUp(),

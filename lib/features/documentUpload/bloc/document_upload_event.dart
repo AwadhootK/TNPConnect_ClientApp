@@ -34,3 +34,9 @@ class DocumentEmitInitEvent extends StudentDocumentUploadEvent {
 
   DocumentEmitInitEvent(this.docIndex);
 }
+
+class CheckDocsUploaded extends StudentDocumentUploadEvent {
+  String erno;
+
+  CheckDocsUploaded(this.erno);
+}
